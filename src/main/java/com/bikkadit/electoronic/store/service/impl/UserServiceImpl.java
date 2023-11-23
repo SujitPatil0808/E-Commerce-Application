@@ -1,4 +1,4 @@
-package com.bikkadit.electoronic.store.serviceimpl;
+package com.bikkadit.electoronic.store.service.impl;
 
 import com.bikkadit.electoronic.store.constanst.AppConstants;
 import com.bikkadit.electoronic.store.exception.ResourceNotFoundException;

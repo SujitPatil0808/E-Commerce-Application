@@ -2,19 +2,22 @@ package com.bikkadit.electoronic.store.controller;
 
 
 import com.bikkadit.electoronic.store.constanst.AppConstants;
-import com.bikkadit.electoronic.store.model.User;
 import com.bikkadit.electoronic.store.payload.ApiResponse;
+import com.bikkadit.electoronic.store.payload.ImageResponse;
 import com.bikkadit.electoronic.store.payload.PageableResponse;
 import com.bikkadit.electoronic.store.payload.UserDto;
+import com.bikkadit.electoronic.store.service.FileService;
 import com.bikkadit.electoronic.store.service.UserServiceI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -24,6 +27,11 @@ public class UserController {
 
     @Autowired
     private UserServiceI userServiceI;
+
+    @Autowired
+    private FileService fileService;
+    @Value("${user.profile.image.path}")
+     private String path;
 
     /**
      * @author Sujit Patil
@@ -165,4 +173,42 @@ public class UserController {
         log.info("Completed the  request for update  the user with UserId :{} ",str);
         return  new ResponseEntity<UserDto>(userDto1,HttpStatus.OK);
     }
+
+    /**
+     * @author Sujit Patil
+     * @param image
+     * @param userId
+     * @return ImageResponse
+     * @throws IOException
+     * @since 1.0V
+     */
+    @PostMapping("/image/{userId}")
+    public ResponseEntity<ImageResponse> uploadImage(@RequestParam MultipartFile image, @PathVariable    String userId) throws IOException {
+    log.info("Enter the request for Upload Image with UserId : {}",userId);
+    String file = this.fileService.uploadFile(image, path);
+
+    UserDto user = this.userServiceI.getSingleUser(userId);
+
+    user.setImageName(file);
+
+    UserDto updatedUser = this.userServiceI.updateUser(user, userId);
+
+    ImageResponse imageResponse = ImageResponse.builder().message("Image Uploaded").imageName(file).status(true).statusCode(HttpStatus.CREATED).build();
+
+        log.info("Completed the request for Upload Image with UserId : {}",userId);
+    return new ResponseEntity<ImageResponse>(imageResponse,HttpStatus.CREATED);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 }
