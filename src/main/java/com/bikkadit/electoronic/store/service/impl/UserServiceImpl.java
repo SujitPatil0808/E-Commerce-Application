@@ -11,11 +11,13 @@ import com.bikkadit.electoronic.store.service.UserServiceI;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -29,6 +31,9 @@ public class UserServiceImpl implements UserServiceI {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Value("${user.profile.image.path}")
+    private String path;
 
     @Override
     public UserDto createUser(UserDto userDto) {
@@ -63,6 +68,14 @@ public class UserServiceImpl implements UserServiceI {
     public void deleteUser(String id) {
         log.info("Entering the Dao call for delete the user with userId :{}",id);
         User use = this.userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND + id));
+        String imageName = use.getImageName();
+        String fullPath = path + imageName;
+
+        File image=new File(fullPath);
+        if(image.exists()){
+    image.delete();
+        }
+
         log.info("Completed the Dao call for delete the user with userId :{}",id);
         this.userRepository.delete(use);
 
