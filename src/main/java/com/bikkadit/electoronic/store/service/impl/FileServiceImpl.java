@@ -15,7 +15,7 @@ import java.util.UUID;
 @Service
 public class FileServiceImpl implements FileService {
 
-    private Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
 
     @Override
     public String uploadFile(MultipartFile file, String path) throws IOException {

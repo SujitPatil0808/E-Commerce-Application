@@ -8,9 +8,6 @@ public class ImageValidation implements ConstraintValidator<ImageNameValid,Strin
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
 
-        if (value.isBlank()){
-        return false;
-        }
-        return true;
+        return !value.isBlank();
     }
 }
