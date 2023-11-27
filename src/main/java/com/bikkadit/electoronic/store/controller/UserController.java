@@ -185,6 +185,7 @@ public class UserController {
 
     /**
      * @author Sujit Patil
+     * @apiNote Upload The Image
      * @param image
      * @param userId
      * @return ImageResponse
@@ -208,12 +209,23 @@ public class UserController {
     return new ResponseEntity<ImageResponse>(imageResponse,HttpStatus.CREATED);
 
 }
-@GetMapping("/image/{userId}")
+
+    /**
+     * @author Sujit Patil
+     * @apiNote to Get Image with UserId
+     * @param userId
+     * @param response
+     * @throws IOException
+     * @since 1.0v
+     */
+    @GetMapping("/image/{userId}")
     public void getUserImage(@PathVariable String userId, HttpServletResponse response) throws IOException {
+        log.info("Enter the request for Get Image with UserId : {}",userId);
         UserDto user = userServiceI.getSingleUser(userId);
         log.info(" UserImage Name : {}",user.getImageName());
         InputStream resource = fileService.getResource(path, user.getImageName());
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        log.info("Completed the request for Get Image with UserId : {}",userId);
         StreamUtils.copy(resource,response.getOutputStream());
     }
 

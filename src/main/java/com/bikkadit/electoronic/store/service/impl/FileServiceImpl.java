@@ -20,7 +20,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public String uploadFile(MultipartFile file, String path) throws IOException {
 
-        logger.info("Entering The Dao Call For Upload Image");
+        logger.info("Entering The Dao Call For Upload Image :");
         String originalFilename = file.getOriginalFilename();
         logger.info("orginalFileName : {}", originalFilename);
 
@@ -52,12 +52,12 @@ public class FileServiceImpl implements FileService {
     @Override
     public InputStream getResource(String path, String name) throws FileNotFoundException {
 
-        logger.info("Entering The Dao Call For Get Image");
+        logger.info("Entering The Dao Call For Get Image :{}",name);
 
         String fullPath = path+File.separator + name;
 
         InputStream inputStream=new FileInputStream(fullPath);
-        logger.info("Completed The Dao Call For Get  Image");
+        logger.info("Completed The Dao Call For Get Image :{}",name);
 
         return inputStream;
     }
