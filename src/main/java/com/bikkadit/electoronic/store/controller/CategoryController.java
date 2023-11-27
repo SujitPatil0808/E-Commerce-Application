@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/category")
 @Slf4j
@@ -27,7 +29,7 @@ public class CategoryController {
      * @since 1.0v
      */
     @PostMapping("/")
-    public ResponseEntity<CategoryDto> saveCategory(@RequestBody CategoryDto categoryDto){
+    public ResponseEntity<CategoryDto> saveCategory( @Valid @RequestBody CategoryDto categoryDto){
         log.info("Enter the  request for Save the Category : {}",categoryDto);
         CategoryDto category = this.categoryServiceI.createCategory(categoryDto);
         log.info("Completed the  request for Save the Category : {}",categoryDto);
@@ -44,7 +46,7 @@ public class CategoryController {
      * @return PageableResponse
      * @since 1.0v
      */
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseEntity<PageableResponse>getAllCategory(
             @RequestParam(value = "pageNumber",defaultValue = AppConstants.PAGE_NUMBER,required = false)Integer pageNumber,
             @RequestParam(value = "pageSize",defaultValue = AppConstants.PAGE_SIZE,required = false) Integer pageSize,
@@ -84,7 +86,7 @@ public class CategoryController {
     public ResponseEntity<ApiResponse> deleteCategory(@PathVariable String categoryId){
         log.info("Enter the  request for Delete  the Category With Category Id  :{}",categoryId);
         ApiResponse api=new ApiResponse();
-        api.setMessage("Category Deleted Successfully");
+        api.setMessage(AppConstants.DELETE);
         api.setStatusCode(HttpStatus.OK);
         api.setStatus(true);
         this.categoryServiceI.deleteCategory(categoryId);
@@ -101,15 +103,12 @@ public class CategoryController {
      * @since 1.0v
      */
     @PutMapping("/{categoryId}")
-    public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto dto,@PathVariable String categoryId){
+    public ResponseEntity<CategoryDto> updateCategory(@Valid @RequestBody CategoryDto dto,@PathVariable String categoryId){
         log.info("Enter the  request for Update  the Category With Category Id  :{}",categoryId);
         CategoryDto categoryDto1 = this.categoryServiceI.updateCategory(dto, categoryId);
         log.info("Completed the  request for Update  the Category With Category Id  :{}",categoryId);
         return new ResponseEntity<>(categoryDto1,HttpStatus.OK);
     }
-
-
-
 
 
 

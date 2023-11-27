@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserServiceI {
 
         List<User> users = pages.getContent();
 
-        List<UserDto> dto = users.stream().map(user -> this.modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
+
 
 
         PageableResponse<UserDto> pageableResponse = Helper.getPageableResponse(pages, UserDto.class);

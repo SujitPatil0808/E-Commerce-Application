@@ -12,7 +12,7 @@ public class AppConstants {
     public static final String PAGE_SIZE="10";
 
     public static final String SORT_BY="name";
-    public static final String CATEGORY_SORT_BY="category_image";
+    public static final String CATEGORY_SORT_BY="categoryId";
 
     public static final String SORT_DIR="asc";
 
