@@ -123,6 +123,15 @@ public class CategoryController {
         return new ResponseEntity<>(categoryDto1,HttpStatus.OK);
     }
 
+    /**
+     * @author Sujit Patil
+     * @apiNote Upload the image with CategoryId
+     * @param image
+     * @param catId
+     * @return
+     * @throws IOException
+     * @since 1.0v
+     */
     @PostMapping("/image/{catId}")
     public ResponseEntity<ImageResponse> uploadImage(@RequestParam MultipartFile image, @PathVariable    String catId) throws IOException {
         log.info("Enter the request for Upload Image with categoryId : {}",catId);
@@ -140,6 +149,15 @@ public class CategoryController {
         return new ResponseEntity<ImageResponse>(imageResponse,HttpStatus.CREATED);
 
 }
+
+    /**
+     * @author Sujit Patil
+     * @apiNote get image with CategoryId
+     * @param categoryId
+     * @param response
+     * @throws IOException
+     * @since 1.0v
+     */
     @GetMapping("/image/{categoryId}")
     public void getUserImage(@PathVariable String categoryId, HttpServletResponse response) throws IOException {
         log.info("Enter the request for Get Image with categoryId : {}",categoryId);

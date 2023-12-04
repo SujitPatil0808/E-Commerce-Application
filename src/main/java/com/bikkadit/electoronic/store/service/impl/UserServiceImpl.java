@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserServiceI {
 
         File image=new File(fullPath);
         if(image.exists()){
-    image.delete();
+        image.delete();
         }
 
         log.info("Completed the Dao call for delete the user with userId :{}",id);
@@ -93,8 +93,6 @@ public class UserServiceImpl implements UserServiceI {
 
 
         List<User> users = pages.getContent();
-
-
 
 
         PageableResponse<UserDto> pageableResponse = Helper.getPageableResponse(pages, UserDto.class);
