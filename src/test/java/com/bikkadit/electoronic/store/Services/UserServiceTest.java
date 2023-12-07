@@ -15,6 +15,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,14 +45,7 @@ public class UserServiceTest {
                 .password("Sujit@8878")
                 .build();
 
-        user1 = User.builder()
-                .name("Pavan Patil")
-                .email("SujitPatil3066@Gmail.com")
-                .about("I Am Software Developer")
-                .gender("Male")
-                .imageName("abc.png")
-                .password("Sujit@8878")
-                .build();
+
     }
 
 
@@ -67,28 +62,31 @@ public class UserServiceTest {
         Assertions.assertEquals("Sujit", userDto1.getName());
 
     }
-//
-//    @Test
-//    public void updateUserTest() {
-//
-//        UserDto userDto = UserDto.builder()
-//                .name("Pavan")
-//                .email("Pavan@Gmail.com")
-//                .about("I Am Software Developer")
-//                .gender("Male")
-//                .imageName("abc.png")
-//                .password("pp@8878")
-//                .build();
-//
-//        String userId = "";
-//
-//        Mockito.when(userRepository.save(user).thenReturn(userDto);
-//        UserDto updatedUser = userServiceI.updateUser(userDto, userId);
-//        System.out.println(updatedUser.getName());
-//        System.out.println(updatedUser.getPassword());
-//        Assertions.assertNotNull(userDto);
-//        Assertions.assertEquals(updatedUser.getName(),userDto.getName());
-//    }
+
+    @Test
+    public void updateUserTest() {
+
+        UserDto userDto = UserDto.builder()
+                .name("Pavan")
+                .email("Pavan@Gmail.com")
+                .about("I Am Software Developer")
+                .gender("Male")
+                .imageName("abc.png")
+                .password("pp@8878")
+                .build();
+
+        String userId = "abc";
+
+        Mockito.when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+
+        Mockito.when(userRepository.save(user)).thenReturn(user);
+
+        UserDto updatedUser = userServiceI.updateUser(userDto, userId);
+        System.out.println(updatedUser.getName());
+        System.out.println(updatedUser.getPassword());
+        Assertions.assertNotNull(userDto);
+        Assertions.assertEquals(updatedUser.getName(),userDto.getName());
+    }
 
     @Test
     public void deleteUserTest(){
@@ -116,16 +114,16 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getSingleUserTest(){
+    public void getSingleUserTest() {
 
 
-        String userId="Abc";
+        String userId = "Abc";
 
         Mockito.when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
         UserDto userDto = userServiceI.getSingleUser(userId);
         Assertions.assertNotNull(userDto);
-        Assertions.assertEquals(userDto.getUserId(),userDto.getUserId(),"User Id Is Mismatch");
+        Assertions.assertEquals(userDto.getUserId(), user.getUserId(), "User Id Is Mismatch");
     }
 
     @Test
@@ -155,12 +153,21 @@ public class UserServiceTest {
     }
 
 //    @Test
-//    public void getAllUsers(){
+//    public void getAllUsers(){//
+//    user1 = User.builder()
+//                .name("Pavan Patil")
+//                .email("SujitPatil3066@Gmail.com")
+//                .about("I Am Software Developer")
+//                .gender("Male")
+//                .imageName("abc.png")
+//                .password("Sujit@8878")
+//                .build();
 //
-
-//        Mockito.when(userRepository.findAll()).thenReturn(List.of(user,user1));
-//        PageableResponse allUsers = userServiceI.getAllUsers(1, 5, "UserId", "Asc");
+//
+//        Mockito.when(userRepository.findAll().thenReturn(List.of(user,user1));
+//        PageableResponse allUsers = userServiceI.getAllUsers(1, 5, "name", "Asc");
 //        Assertions.assertNotNull(allUsers);
+//
 //
 //    }
 }

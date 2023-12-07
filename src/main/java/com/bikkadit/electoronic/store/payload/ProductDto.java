@@ -1,8 +1,16 @@
 package com.bikkadit.electoronic.store.payload;
 
+import lombok.*;
+
 import javax.persistence.Column;
 import java.util.Date;
 
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ProductDto {
 
 

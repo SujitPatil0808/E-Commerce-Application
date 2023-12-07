@@ -1,6 +1,8 @@
 package com.bikkadit.electoronic.store.helper;
 
+import com.bikkadit.electoronic.store.model.Product;
 import com.bikkadit.electoronic.store.payload.PageableResponse;
+import com.bikkadit.electoronic.store.payload.ProductDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 
