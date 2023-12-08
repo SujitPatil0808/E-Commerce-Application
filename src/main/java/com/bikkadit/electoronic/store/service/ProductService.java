@@ -19,7 +19,7 @@ public interface ProductService {
 
         //findByLive
 
-        PageableResponse<Product> findByliveTrue(Integer pageNumber, Integer pageSize, String sortBy, String direction);
+        PageableResponse<ProductDto> findByliveTrue(Integer pageNumber, Integer pageSize, String sortBy, String direction);
 
         //getalllive
 

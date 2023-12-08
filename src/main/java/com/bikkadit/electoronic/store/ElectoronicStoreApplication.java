@@ -11,7 +11,6 @@ public class ElectoronicStoreApplication {
 
 		System.out.println("Application Started Successfully");
 
-
 	}
 
 

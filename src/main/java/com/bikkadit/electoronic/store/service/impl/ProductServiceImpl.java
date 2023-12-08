@@ -84,19 +84,34 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PageableResponse<Product> findByliveTrue(Integer pageNumber, Integer pageSize, String sortBy, String direction) {
+    public PageableResponse<ProductDto> findByliveTrue(Integer pageNumber, Integer pageSize, String sortBy, String direction) {
 
+        Sort sort=(direction.equalsIgnoreCase("desc")) ? (Sort.by(sortBy).descending()) :(Sort.by(sortBy).ascending());
+        PageRequest pages=PageRequest.of(pageNumber,pageSize,sort);
+        Page<Product> byLiveTrue = productRepository.findByLiveTrue(pages);
+        PageableResponse<ProductDto> pageableResponse = Helper.getPageableResponse(byLiveTrue, ProductDto.class);
 
-        return null;
+        return pageableResponse;
     }
 
     @Override
     public PageableResponse<ProductDto> getAllLIveProducts(Integer pageNumber, Integer pageSize, String sortBy, String direction) {
-        return null;
+
+        Sort sort=(direction.equalsIgnoreCase("desc")) ? (Sort.by(sortBy).descending()) :(Sort.by(sortBy).ascending());
+        PageRequest pages=PageRequest.of(pageNumber,pageSize,sort);
+        Page<Product> allProducts = productRepository.findByLiveTrue(pages);
+        PageableResponse<ProductDto> pageableResponse = Helper.getPageableResponse(allProducts, ProductDto.class);
+        return pageableResponse;
     }
 
     @Override
     public PageableResponse<ProductDto> getProductByTitle(String keyword, Integer pageNumber, Integer pageSize, String sortBy, String direction) {
-        return null;
+
+        Sort sort=(direction.equalsIgnoreCase("desc")) ? (Sort.by(sortBy).descending()) :(Sort.by(sortBy).ascending());
+        PageRequest pages=PageRequest.of(pageNumber,pageSize,sort);
+        Page<Product> byTitleContaining = productRepository.findByTitleContaining(pages,keyword);
+        PageableResponse<ProductDto> pageableResponse = Helper.getPageableResponse(byTitleContaining, ProductDto.class);
+
+        return pageableResponse;
     }
 }

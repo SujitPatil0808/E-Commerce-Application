@@ -17,6 +17,7 @@ public class Product {
 
     @Id
     private String productId;
+
     @Column(name = "product_title")
     private String title;
 
