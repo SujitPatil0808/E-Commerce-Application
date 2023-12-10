@@ -22,10 +22,10 @@ public class UserDto {
     @Size(min = 5, max = 20, message = "UserName Should be Min 5 Character And Max 20 Character")
     private String name;
 
-    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Enter The Valid Email Id")
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[a-zA-Z]{2,}$", message = "Enter The Valid Email Id")
     private String email;
 
-    @Pattern(regexp = "^(?=.[a-z])(?=.[A-Z])(?=.\\d)(?=.[@#$%^&+=]).*$", message = "password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character")
+//    @Pattern(regexp = "^(?=.[a-z])(?=.[A-Z])(?=.)(?=.[@#$%^&+=]).*$", message = "password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character")
     private String password;
 
     @NotBlank

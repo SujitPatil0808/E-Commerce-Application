@@ -123,4 +123,37 @@ public class ProductServiceImpl implements ProductService {
         return pageableResponse;
     }
 
+    @Override
+    public ProductDto createProductWithCategory(ProductDto productDto, String categoryId) {
+
+        Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
+
+        Product product  = this.modelMapper.map(productDto, Product.class);
+
+        Date date=new Date();
+
+        String id = UUID.randomUUID().toString();
+        product.setProductId(id);
+        product.setAddedDate(date);
+        product.setCategories(category);
+        Product newProduct = this.productRepository.save(product);
+        return modelMapper.map(newProduct,ProductDto.class);
+
+
+
+    }
+
+    @Override
+    public ProductDto getProductWithProductIdCategoryId(String categoryId, String productId) {
+
+        Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
+
+        Product product = this.productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
+
+        ProductDto productDto = modelMapper.map(product, ProductDto.class);
+
+        return productDto;
+    }
+
+
 }

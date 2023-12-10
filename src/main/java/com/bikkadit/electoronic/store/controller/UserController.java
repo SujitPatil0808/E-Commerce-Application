@@ -49,7 +49,7 @@ public class UserController {
      * @since 1.0v
      */
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<UserDto> saveUser(@Valid @RequestBody UserDto user) {
         log.info("Enter the  request for Save the User : {}",user);
         UserDto user1 = this.userServiceI.createUser(user);

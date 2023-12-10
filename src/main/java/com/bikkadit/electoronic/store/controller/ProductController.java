@@ -137,57 +137,33 @@ public class ProductController {
     }
 
 
-    @GetMapping("/image/{categoryId}")
-    public void getProductImage(@PathVariable String categoryId, HttpServletResponse response) throws IOException {
+    @GetMapping("/image/{productId}")
+    public void getProductImage(@PathVariable String productId, HttpServletResponse response) throws IOException {
 
-        ProductDto product = this.productService.getSingleProduct(categoryId);
+        ProductDto product = this.productService.getSingleProduct(productId);
         InputStream resource = this.fileService.getResource(path, product.getImage());
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         StreamUtils.copy(resource,response.getOutputStream());
     }
 
 
+    @PostMapping("/category/{categoryId}")
+    public ResponseEntity<ProductDto> saveProductWithCategoryId(@PathVariable String categoryId,@RequestBody ProductDto productDto){
+
+        ProductDto product = this.productService.createProductWithCategory(productDto, categoryId);
+        return new ResponseEntity<>(product,HttpStatus.CREATED);
+
+    }
+    
 
 
+    @GetMapping("/categoryId/{categoryId}/productId/{productId}")
+    public ResponseEntity<ProductDto> getProductWithCategoryId(@PathVariable String categoryId,@PathVariable String productId ){
 
+        ProductDto product = this.productService.getProductWithProductIdCategoryId(categoryId, productId);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return new ResponseEntity<>(product,HttpStatus.CREATED);
+    }
 
 
 

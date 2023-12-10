@@ -2,6 +2,7 @@ package com.bikkadit.electoronic.store.repository;
 
 import com.bikkadit.electoronic.store.model.Product;
 import com.bikkadit.electoronic.store.payload.PageableResponse;
+import com.bikkadit.electoronic.store.payload.ProductDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,6 +23,7 @@ public interface ProductRepository extends JpaRepository<Product,String> {
 
 
     // Update Product With Category
+
 
 
 }
