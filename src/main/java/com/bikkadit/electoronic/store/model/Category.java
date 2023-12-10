@@ -1,10 +1,11 @@
 package com.bikkadit.electoronic.store.model;
 
 import lombok.*;
+import org.springframework.data.util.Lazy;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,4 +27,9 @@ public class Category {
 
     @Column(name = "catergory_image")
     private String coverImage;
+
+
+    @OneToMany( mappedBy = "categories",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Product> products=new ArrayList<>();
+
 }

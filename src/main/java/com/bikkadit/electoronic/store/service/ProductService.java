@@ -1,5 +1,6 @@
 package com.bikkadit.electoronic.store.service;
 
+import com.bikkadit.electoronic.store.model.Category;
 import com.bikkadit.electoronic.store.model.Product;
 import com.bikkadit.electoronic.store.payload.PageableResponse;
 import com.bikkadit.electoronic.store.payload.ProductDto;
@@ -28,5 +29,10 @@ public interface ProductService {
         //search By Title
 
         PageableResponse<ProductDto> getProductByTitle(String keyword,Integer pageNumber, Integer pageSize, String sortBy, String direction);
+
+
+
+
+
 
 }

@@ -3,9 +3,11 @@ package com.bikkadit.electoronic.store.service.impl;
 import com.bikkadit.electoronic.store.constanst.AppConstants;
 import com.bikkadit.electoronic.store.exception.ResourceNotFoundException;
 import com.bikkadit.electoronic.store.helper.Helper;
+import com.bikkadit.electoronic.store.model.Category;
 import com.bikkadit.electoronic.store.model.Product;
 import com.bikkadit.electoronic.store.payload.PageableResponse;
 import com.bikkadit.electoronic.store.payload.ProductDto;
+import com.bikkadit.electoronic.store.repository.CategoryRepository;
 import com.bikkadit.electoronic.store.repository.ProductRepository;
 import com.bikkadit.electoronic.store.service.ProductService;
 import org.modelmapper.ModelMapper;
@@ -23,6 +25,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -66,8 +71,11 @@ public class ProductServiceImpl implements ProductService {
         product.setQuantity(productDto.getQuantity());
         product.setStock(productDto.getStock());
         product.setDiscountedPrice(productDto.getDiscountedPrice());
+        product.setImage(productDto.getImage());
 
-        return modelMapper.map(product,ProductDto.class);
+        Product save = this.productRepository.save(product);
+
+        return modelMapper.map(save,ProductDto.class);
     }
 
     @Override
@@ -99,7 +107,7 @@ public class ProductServiceImpl implements ProductService {
 
         Sort sort=(direction.equalsIgnoreCase("desc")) ? (Sort.by(sortBy).descending()) :(Sort.by(sortBy).ascending());
         PageRequest pages=PageRequest.of(pageNumber,pageSize,sort);
-        Page<Product> allProducts = productRepository.findByLiveTrue(pages);
+        Page<Product> allProducts = productRepository.findAll(pages);
         PageableResponse<ProductDto> pageableResponse = Helper.getPageableResponse(allProducts, ProductDto.class);
         return pageableResponse;
     }
@@ -114,4 +122,5 @@ public class ProductServiceImpl implements ProductService {
 
         return pageableResponse;
     }
+
 }

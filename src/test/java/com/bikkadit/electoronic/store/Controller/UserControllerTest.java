@@ -32,25 +32,25 @@ public class UserControllerTest {
     @Autowired
     ModelMapper modelMapper;
 
-    User user;
+//    User user;
 
-    @BeforeEach
-    public void init() {
-        user = User.builder()
-                .name("Sujit")
-                .email("SujitPatil3066@Gmail.com")
-                .about("I Am Software Developer")
-                .gender("Male")
-                .imageName("abc.png")
-                .password("Sujit@8878")
-                .build();
-    }
-
-    public static String convertObjToJsonString(User user) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        String obj = mapper.writeValueAsString(user);
-           return obj;
-    }
+//    @BeforeEach
+//    public void init() {
+//        user = User.builder()
+//                .name("Sujit")
+//                .email("SujitPatil3066@Gmail.com")
+//                .about("I Am Software Developer")
+//                .gender("Male")
+//                .imageName("abc.png")
+//                .password("Sujit@8878")
+//                .build();
+//    }
+//
+//    public static String convertObjToJsonString(User user) throws JsonProcessingException {
+//        ObjectMapper mapper = new ObjectMapper();
+//        String obj = mapper.writeValueAsString(user);
+//           return obj;
+//    }
 
 //    @Test
 //    public void saveUserTest() throws JsonProcessingException {

@@ -129,6 +129,14 @@ public class UserServiceTest {
     @Test
     public void searchUserTest(){
 
+        User user1 = User.builder()
+                .name("Pavan")
+                .email("Pavan@Gmail.com")
+                .about("I Am Software Developer")
+                .gender("Male")
+                .imageName("abc.png")
+                .password("pp@8878")
+                .build();
         String keyword="Patil";
 
         Mockito.when(userRepository.findByNameContaining(keyword)).thenReturn(List.of(user,user1));

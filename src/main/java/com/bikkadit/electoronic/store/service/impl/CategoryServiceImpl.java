@@ -48,9 +48,9 @@ public class CategoryServiceImpl implements CategoryServiceI {
         PageRequest pages = PageRequest.of(pageNumber, pageSize, sort);
 
         Page<Category> all = this.categoryRepository.findAll(pages);
-        Helper.getPageableResponse(all, CategoryDto.class)
+        PageableResponse<CategoryDto> response = Helper.getPageableResponse(all, CategoryDto.class);
         log.info("Completed the Dao call for Get All Categories :");
-        return pageableResponse;
+        return response;
     }
 
     @Override
