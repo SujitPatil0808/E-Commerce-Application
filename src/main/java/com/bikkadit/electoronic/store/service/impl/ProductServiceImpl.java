@@ -123,4 +123,53 @@ public class ProductServiceImpl implements ProductService {
         return pageableResponse;
     }
 
+    @Override
+    public ProductDto createProductWithCategory(ProductDto productDto, String categoryId) {
+
+        Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
+
+        Product product  = this.modelMapper.map(productDto, Product.class);
+
+        Date date=new Date();
+        String id = UUID.randomUUID().toString();
+        product.setProductId(id);
+        product.setAddedDate(date);
+        product.setCategories(category);
+        Product newProduct = this.productRepository.save(product);
+        return modelMapper.map(newProduct,ProductDto.class);
+
+    }
+
+    @Override
+    public PageableResponse<ProductDto> getAllOfCategory(String categoryId, Integer pageNumber, Integer pageSize, String sortBy, String direction) {
+
+        Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
+        Sort sort=(direction.equalsIgnoreCase("desc")) ? (Sort.by(sortBy).descending()) :(Sort.by(sortBy).ascending());
+        PageRequest pages=PageRequest.of(pageNumber,pageSize,sort);
+
+        Page<Product> product = this.productRepository.findByCategories(category, pages);
+
+        PageableResponse<ProductDto> pageableResponse = Helper.getPageableResponse(product, ProductDto.class);
+
+        return pageableResponse;
+    }
+
+
+    @Override
+    public ProductDto updateCategory(String productId, String categoryId) {
+        Product product = this.productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
+
+        Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
+
+
+
+        product.setCategories(category);
+        Product save = this.productRepository.save(product);
+
+        ProductDto dto = modelMapper.map(save, ProductDto.class);
+
+        return dto;
+    }
+
+
 }

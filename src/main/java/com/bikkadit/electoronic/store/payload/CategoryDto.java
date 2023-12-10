@@ -1,10 +1,13 @@
 package com.bikkadit.electoronic.store.payload;
 
+import com.bikkadit.electoronic.store.model.Product;
 import com.bikkadit.electoronic.store.validator.ImageNameValid;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -27,4 +30,6 @@ public class CategoryDto {
 
     @ImageNameValid (message = "Image Name Must Not  Be Blank")
     private String coverImage;
+
+//    private List<Product> products=new ArrayList<>();
 }

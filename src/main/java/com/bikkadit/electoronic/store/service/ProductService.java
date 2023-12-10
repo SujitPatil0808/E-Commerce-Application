@@ -30,8 +30,15 @@ public interface ProductService {
 
         PageableResponse<ProductDto> getProductByTitle(String keyword,Integer pageNumber, Integer pageSize, String sortBy, String direction);
 
+        // 3 Methods
 
+        // create Product With Product And CategoryId
+        ProductDto createProductWithCategory(ProductDto productDto,String categoryId);
 
+        // getProduct With ProductId And CategoryId
+        PageableResponse<ProductDto> getAllOfCategory(String categoryId,Integer pageNumber, Integer pageSize, String sortBy, String direction);
+        // Update
+        ProductDto updateCategory(String productId,String categoryId);
 
 
 

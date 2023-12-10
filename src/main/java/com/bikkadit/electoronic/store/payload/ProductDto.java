@@ -1,5 +1,6 @@
 package com.bikkadit.electoronic.store.payload;
 
+import com.bikkadit.electoronic.store.model.Category;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -44,4 +45,5 @@ public class ProductDto {
 
     private String image;
 
+    private CategoryDto categories;
 }
