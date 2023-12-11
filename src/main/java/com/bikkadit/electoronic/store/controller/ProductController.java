@@ -140,6 +140,7 @@ public class ProductController {
     @GetMapping("/image/{categoryId}")
     public void getProductImage(@PathVariable String categoryId, HttpServletResponse response) throws IOException {
 
+        System.out.println("Sujit");
         ProductDto product = this.productService.getSingleProduct(categoryId);
         InputStream resource = this.fileService.getResource(path, product.getImage());
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
