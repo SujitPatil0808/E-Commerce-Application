@@ -137,44 +137,59 @@ public class ProductController {
     }
 
 
-    @GetMapping("/image/{productId}")
-    public void getProductImage(@PathVariable String productId, HttpServletResponse response) throws IOException {
+    @GetMapping("/image/{categoryId}")
+    public void getProductImage(@PathVariable String categoryId, HttpServletResponse response) throws IOException {
 
-        ProductDto product = this.productService.getSingleProduct(productId);
+        ProductDto product = this.productService.getSingleProduct(categoryId);
         InputStream resource = this.fileService.getResource(path, product.getImage());
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         StreamUtils.copy(resource,response.getOutputStream());
     }
 
 
-        @PostMapping("/category/{categoryId}")
-        public ResponseEntity<ProductDto> saveProductWithCategoryId(@PathVariable String categoryId,@RequestBody ProductDto productDto){
 
-            ProductDto product = this.productService.createProductWithCategory(productDto, categoryId);
-            return new ResponseEntity<>(product,HttpStatus.CREATED);
 
-        }
 
-    @GetMapping("/AllcategoryId/{categoryId}")
-    public ResponseEntity<PageableResponse<ProductDto>> getAllUsersCategory(
-            @PathVariable String categoryId,
-            @RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
-            @RequestParam(value = "sortBy", defaultValue = AppConstants.PRODUCT_SORT_BY, required = false) String sortBy,
-            @RequestParam(value = "direction", defaultValue = AppConstants.SORT_DIR, required = false) String direction   ){
 
-        PageableResponse<ProductDto> allOfCategory = this.productService.getAllOfCategory(categoryId, pageNumber, pageSize, sortBy, direction);
-       return new ResponseEntity<>(allOfCategory,HttpStatus.OK);
-    }
 
-    @PutMapping("/category/{categoryId}/product/{productId}")
-    public ResponseEntity<ProductDto> updateProductWithCategoryId(@PathVariable String categoryId,@PathVariable String productId){
-        ProductDto productDto = this.productService.updateCategory(categoryId, productId);
-        return new ResponseEntity<>(productDto,HttpStatus.OK);
-    }
 
-//
-//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
