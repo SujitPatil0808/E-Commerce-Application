@@ -74,6 +74,7 @@ public class CategoryServiceTest {
         Page<Category> page=new PageImpl<>(categories);
 
         Mockito.when(this.categoryRepository.findAll((Pageable) Mockito.any())).thenReturn(page);
+
         Sort.by("title").ascending();
 
     }

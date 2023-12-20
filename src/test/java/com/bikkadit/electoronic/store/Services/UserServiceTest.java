@@ -93,7 +93,7 @@ public class UserServiceTest {
 
             String userId="Abc";
 
-            Mockito.when(userRepository.findById(userId)).thenReturn(Optional.of(user));
+                Mockito.when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
             userServiceI.deleteUser(userId);
 

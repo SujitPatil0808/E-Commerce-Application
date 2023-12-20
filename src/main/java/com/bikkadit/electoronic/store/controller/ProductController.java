@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Path;
 import javax.validation.Valid;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -232,7 +233,7 @@ public class ProductController {
      * @throws IOException
      * @since 1.0v
      */
-    @GetMapping("/image/{categoryId}")
+    @GetMapping("/image/{productId}")
     public void getProductImage(@PathVariable String productId, HttpServletResponse response) throws IOException {
 
         log.info("Enter the  request for Get Image With ProductId :{} ",productId);
@@ -243,7 +244,34 @@ public class ProductController {
         StreamUtils.copy(resource,response.getOutputStream());
     }
 
+    // Create product with category Id
 
+    /**
+     * @author Sujit Patil
+     * @apiNote  get All Products With Category Id
+     * @param categoryId
+     * @param pageNumber
+     * @param pageSize
+     * @param sortBy
+     * @param direction
+     * @return
+     * @since 1.0v
+     */
+    @GetMapping("/allByCategoryId/{categoryId}")
+    public ResponseEntity<PageableResponse<ProductDto>> getAllProductByCategoryId(
+            @PathVariable String categoryId,
+            @RequestParam(value = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.PRODUCT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "direction", defaultValue = AppConstants.SORT_DIR, required = false) String direction
+
+    ){
+        log.info("Enter the  request for Get All Product With Category Id :{} ",categoryId);
+        PageableResponse<ProductDto> allProducts = this.productService.getAllOfCategory(categoryId, pageNumber, pageSize, sortBy, direction);
+        log.info("Completed the  request for Get All Product With Category Id :{} ",categoryId);
+
+        return new ResponseEntity<>(allProducts,HttpStatus.OK);
+     }
 
 
 

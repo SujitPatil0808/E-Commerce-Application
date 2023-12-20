@@ -39,7 +39,6 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto saveProduct(ProductDto productDto) {
         log.info("Entering the Dao call for create the Product : {}",productDto);
         Product product  = this.modelMapper.map(productDto, Product.class);
-
         Date date=new Date();
         String id = UUID.randomUUID().toString();
         product.setProductId(id);
@@ -99,15 +98,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PageableResponse<ProductDto> findByliveTrue(Integer pageNumber, Integer pageSize, String sortBy, String direction) {
-        log.info("Entering the Dao call for Get All Products Live True : ");
-        Sort sort=(direction.equalsIgnoreCase("desc")) ? (Sort.by(sortBy).descending()) :(Sort.by(sortBy).ascending());
-        PageRequest pages=PageRequest.of(pageNumber,pageSize,sort);
-        Page<Product> byLiveTrue = productRepository.findByLiveTrue(pages);
-        PageableResponse<ProductDto> pageableResponse = Helper.getPageableResponse(byLiveTrue, ProductDto.class);
-        log.info("Completed the Dao call for Get All Products Live True : ");
-        return pageableResponse;
-    }
+        public PageableResponse<ProductDto> findByliveTrue(Integer pageNumber, Integer pageSize, String sortBy, String direction) {
+            log.info("Entering the Dao call for Get All Products Live True : ");
+            Sort sort=(direction.equalsIgnoreCase("desc")) ? (Sort.by(sortBy).descending()) :(Sort.by(sortBy).ascending());
+            PageRequest pages=PageRequest.of(pageNumber,pageSize,sort);
+            Page<Product> byLiveTrue = productRepository.findByLiveTrue(pages);
+            PageableResponse<ProductDto> pageableResponse = Helper.getPageableResponse(byLiveTrue, ProductDto.class);
+            log.info("Completed the Dao call for Get All Products Live True : ");
+            return pageableResponse;
+        }
 
     @Override
     public PageableResponse<ProductDto> getAllLIveProducts(Integer pageNumber, Integer pageSize, String sortBy, String direction) {
@@ -133,7 +132,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto createProductWithCategory(ProductDto productDto, String categoryId) {
-        log.info("Entering the Dao call for Create Products With CategoryId :{} ",categoryId);
+        log.info("Entering the Dao call for Create Products With CategoryId  :{}  ",categoryId);
         Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
 
         Product product  = this.modelMapper.map(productDto, Product.class);
@@ -166,7 +165,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto updateCategory(String productId, String categoryId) {
-        log.info("Entering the Dao call for Update The Product With Category Id :{} ",categoryId);
+        log.info("Entering the Dao call for Update The Product With Product Id And Category Id :{} :{} ",categoryId,productId);
         Product product = this.productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
 
         Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
@@ -177,7 +176,7 @@ public class ProductServiceImpl implements ProductService {
         Product save = this.productRepository.save(product);
 
         ProductDto dto = modelMapper.map(save, ProductDto.class);
-        log.info("Completed the Dao call for Update The Product With Category Id :{} ",categoryId);
+        log.info("Completed the Dao call for Update The Product With Product Id And Category Id :{} :{} ",categoryId,productId);
         return dto;
     }
 
