@@ -20,4 +20,6 @@ public class AppConstants {
 
     public static final String NOT_VALID_QUANTITY="Requested Quantity Is Not Valid";
 
+    public static final String ORDER_SORT_BY="orderStatus";
+
 }
