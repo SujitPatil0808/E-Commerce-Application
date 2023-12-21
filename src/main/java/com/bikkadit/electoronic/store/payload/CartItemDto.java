@@ -18,4 +18,6 @@ public class CartItemDto {
     private Integer totalPrice;
 
     private ProductDto product;
+
+
 }

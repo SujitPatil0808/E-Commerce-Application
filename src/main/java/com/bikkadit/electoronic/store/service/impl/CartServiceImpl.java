@@ -1,6 +1,7 @@
 package com.bikkadit.electoronic.store.service.impl;
 
 import com.bikkadit.electoronic.store.constanst.AppConstants;
+import com.bikkadit.electoronic.store.exception.BadApiRequest;
 import com.bikkadit.electoronic.store.exception.ResourceNotFoundException;
 import com.bikkadit.electoronic.store.model.Cart;
 import com.bikkadit.electoronic.store.model.CartItem;
@@ -8,6 +9,7 @@ import com.bikkadit.electoronic.store.model.Product;
 import com.bikkadit.electoronic.store.model.User;
 import com.bikkadit.electoronic.store.payload.AddItemToCartRequest;
 import com.bikkadit.electoronic.store.payload.CartDto;
+import com.bikkadit.electoronic.store.repository.CartItemRepository;
 import com.bikkadit.electoronic.store.repository.CartRepository;
 import com.bikkadit.electoronic.store.repository.ProductRepository;
 import com.bikkadit.electoronic.store.repository.UserRepository;
@@ -39,12 +41,22 @@ public class CartServiceImpl implements CartService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private CartItemRepository cartItemRepository;
+
 
     @Override
     public CartDto addItemToCart(String userId, AddItemToCartRequest request) {
 
         Integer quantity = request.getQuantity();
         String productId = request.getProductId();
+
+        if (quantity <= 0) {
+            throw new BadApiRequest(AppConstants.NOT_VALID_QUANTITY);
+
+        }
+
+
         //Find A Product
         Product product = this.productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND + productId));
         // Find User From Cart
@@ -100,14 +112,24 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void removeItemFromCart(String userId, String cartId) {
+    public void removeItemFromCart(String userId, Integer cartId) {
 
 
+        CartItem cartItem = this.cartItemRepository.findById(cartId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
+
+        cartItemRepository.delete(cartItem);
 
     }
 
     @Override
     public void clearCart(String userId) {
 
+        User user = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
+
+        Cart cart = this.cartRepository.findByUser(user).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
+
+        cart.getItems().clear();
+
+        cartRepository.save(cart);
     }
 }
