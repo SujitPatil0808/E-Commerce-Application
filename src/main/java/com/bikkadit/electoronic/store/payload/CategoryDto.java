@@ -31,5 +31,5 @@ public class CategoryDto {
     @ImageNameValid (message = "Image Name Must Not  Be Blank")
     private String coverImage;
 
-//    private List<Product> products=new ArrayList<>();
+//    private List<ProductDto> product=new ArrayList<>();
 }

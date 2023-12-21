@@ -1,5 +1,6 @@
 package com.bikkadit.electoronic.store.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class CartItem {
     @JoinColumn(name = "product_id")
     private Product product;
 
+//    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_Id")
     private Cart cart;

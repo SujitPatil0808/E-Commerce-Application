@@ -51,8 +51,8 @@ public class ProductServiceTest {
             .productId("Abc123")
             .title("Apple 14 pro Max")
             .description("It Introduce In 2022")
-            .price(15000.00)
-            .discountedPrice(14000.00)
+            .price(15000)
+            .discountedPrice(14000)
             .quantity(15)
             .live(true)
             .stock(false)
@@ -63,8 +63,8 @@ public class ProductServiceTest {
                 .productId("123")
                 .title("Apple 12 pro Max")
                 .description("It Introduce In 2021")
-                .price(90000.00)
-                .discountedPrice(80000.00)
+                .price(90000)
+                .discountedPrice(80000)
                 .quantity(10)
                 .live(false)
                 .stock(false)
@@ -120,8 +120,8 @@ public class ProductServiceTest {
                 .stock(true)
                 .description("It Contain All Apple Phone")
                 .title("ApplePhones")
-                .price(15000.00)
-                .discountedPrice(10000.00)
+                .price(15000)
+                .discountedPrice(10000)
                 .build();
 
         String id="121";

@@ -61,14 +61,16 @@ public class CartServiceImpl implements CartService {
         Product product = this.productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND + productId));
         // Find User From Cart
         User user = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND + userId));
-        // We Find Cart From User
 
+        // We Find Cart From User
         Cart cart = null;
         try {
             cart = cartRepository.findByUser(user).get();
         } catch (NoSuchElementException ex) {
+
             cart = new Cart();
             cart.setCartId(UUID.randomUUID().toString());
+
             cart.setCreatedAt(new Date());
         }
 
@@ -115,7 +117,8 @@ public class CartServiceImpl implements CartService {
     public void removeItemFromCart(String userId, Integer cartId) {
 
 
-        CartItem cartItem = this.cartItemRepository.findById(cartId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
+        CartItem cartItem = this.cartItemRepository.findById(cartId).orElseThrow(()
+                -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
 
         cartItemRepository.delete(cartItem);
 
@@ -128,8 +131,19 @@ public class CartServiceImpl implements CartService {
 
         Cart cart = this.cartRepository.findByUser(user).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
 
+        System.out.println("Clear Method Start");
         cart.getItems().clear();
-
+        System.out.println("Clear Method End");
         cartRepository.save(cart);
+    }
+
+    @Override
+    public CartDto getCartByUser(String userId) {
+        User user = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
+
+        Cart cart = this.cartRepository.findByUser(user).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
+
+
+         return modelMapper.map(cart,CartDto.class);
     }
 }

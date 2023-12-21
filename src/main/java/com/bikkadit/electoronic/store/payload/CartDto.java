@@ -25,9 +25,8 @@ public class CartDto {
 
     private Date createdAt;
 
-    @OneToOne
     private UserDto user;
 
 
-    private List<CartItem> items=new ArrayList<>();
+    private List<CartItemDto> items = new ArrayList<>();
 }
