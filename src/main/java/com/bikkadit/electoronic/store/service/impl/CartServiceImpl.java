@@ -80,7 +80,7 @@ public class CartServiceImpl implements CartService {
 
         AtomicReference<Boolean> updated = new AtomicReference<>(false);
 
-        List<CartItem> updatedList = items.stream().map(item -> {
+        items = items.stream().map(item -> {
 
             if (item.getProduct().getProductId().equals(productId)) {
                 //Iteam Already Present in Cart
@@ -92,7 +92,8 @@ public class CartServiceImpl implements CartService {
             return item;
         }).collect(Collectors.toList());
 
-        cart.setItems(updatedList);
+//        cart.setItems(updatedList);
+
 
         if (!updated.get()) {
             CartItem cartItem = CartItem.builder()
