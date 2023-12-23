@@ -14,6 +14,7 @@ import com.bikkadit.electoronic.store.repository.CartRepository;
 import com.bikkadit.electoronic.store.repository.ProductRepository;
 import com.bikkadit.electoronic.store.repository.UserRepository;
 import com.bikkadit.electoronic.store.service.CartService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class CartServiceImpl implements CartService {
 
     @Autowired
@@ -48,6 +50,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public CartDto addItemToCart(String userId, AddItemToCartRequest request) {
 
+        log.info("Entering the Dao call for Add the Item into Cart ");
         Integer quantity = request.getQuantity();
         String productId = request.getProductId();
 
@@ -55,7 +58,6 @@ public class CartServiceImpl implements CartService {
             throw new BadApiRequest(AppConstants.NOT_VALID_QUANTITY);
 
         }
-
 
         //Find A Product
         Product product = this.productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND + productId));
@@ -67,7 +69,7 @@ public class CartServiceImpl implements CartService {
         try {
             cart = cartRepository.findByUser(user).get();
         } catch (NoSuchElementException ex) {
-
+            // If User Has No Cart
             cart = new Cart();
             cart.setCartId(UUID.randomUUID().toString());
 
@@ -110,17 +112,18 @@ public class CartServiceImpl implements CartService {
 
         Cart updatedCart = cartRepository.save(cart);
 
-
+        log.info("Completed the Dao call for Add the Item into Cart ");
         return this.modelMapper.map(updatedCart, CartDto.class);
     }
 
     @Override
     public void removeItemFromCart(String userId, Integer cartId) {
 
-
+        log.info("Entering the Dao call for Remove  the Item From Cart with Cart Id :{}", cartId);
         CartItem cartItem = this.cartItemRepository.findById(cartId).orElseThrow(()
                 -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
 
+        log.info("Completed the Dao call for Remove  the Item From Cart with Cart Id :{}", cartId);
         cartItemRepository.delete(cartItem);
 
     }
@@ -128,23 +131,26 @@ public class CartServiceImpl implements CartService {
     @Override
     public void clearCart(String userId) {
 
+        log.info("Entering the Dao call for Clear Cart with UserId :{}", userId);
         User user = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
 
         Cart cart = this.cartRepository.findByUser(user).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
 
-        System.out.println("Clear Method Start");
+
+        log.info("Completed the Dao call for Clear Cart with UserId :{}", userId);
         cart.getItems().clear();
-        System.out.println("Clear Method End");
+
         cartRepository.save(cart);
     }
 
     @Override
     public CartDto getCartByUser(String userId) {
+        log.info("Entering the Dao call for Get Cart with UserId  :{}", userId);
         User user = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
 
         Cart cart = this.cartRepository.findByUser(user).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
 
-
-         return modelMapper.map(cart,CartDto.class);
+        log.info("Completed the Dao call for Get Cart with UserId  :{}", userId);
+        return modelMapper.map(cart, CartDto.class);
     }
 }
