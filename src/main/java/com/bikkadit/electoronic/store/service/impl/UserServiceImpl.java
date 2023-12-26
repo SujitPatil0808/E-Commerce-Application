@@ -3,9 +3,11 @@ package com.bikkadit.electoronic.store.service.impl;
 import com.bikkadit.electoronic.store.constanst.AppConstants;
 import com.bikkadit.electoronic.store.exception.ResourceNotFoundException;
 import com.bikkadit.electoronic.store.helper.Helper;
+import com.bikkadit.electoronic.store.model.Role;
 import com.bikkadit.electoronic.store.model.User;
 import com.bikkadit.electoronic.store.payload.PageableResponse;
 import com.bikkadit.electoronic.store.payload.UserDto;
+import com.bikkadit.electoronic.store.repository.RoleRepository;
 import com.bikkadit.electoronic.store.repository.UserRepository;
 import com.bikkadit.electoronic.store.service.UserServiceI;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +41,12 @@ public class UserServiceImpl implements UserServiceI {
     @Value("${user.profile.image.path}")
     private String path;
 
+    @Value("${normal.role.id}")
+    private String normalRoleId;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public UserDto createUser(UserDto userDto) {
         // If We Use String as primary key then we can generate key Like these
@@ -49,6 +57,11 @@ public class UserServiceImpl implements UserServiceI {
         // set Encoding password
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         User user = this.modelMapper.map(userDto, User.class);
+
+        // Set Normal Role To User
+        Role role = this.roleRepository.findById(normalRoleId).get();
+        user.getRoles().add(role);
+
         this.userRepository.save(user);
         UserDto userDto1 = this.modelMapper.map(user, UserDto.class);
         log.info("Completed the Dao call for create the user ");

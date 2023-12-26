@@ -1,5 +1,6 @@
 package com.bikkadit.electoronic.store.payload;
 
+import com.bikkadit.electoronic.store.model.Role;
 import com.bikkadit.electoronic.store.validator.ImageNameValid;
 import lombok.*;
 
@@ -7,6 +8,8 @@ import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -38,4 +41,6 @@ public class UserDto {
 
     @ImageNameValid(message = "Image Name Must Not  Be Blank")
     private String imageName;
+
+    private Set<RoleDto> roles=new HashSet<>();
 }
