@@ -152,7 +152,9 @@ public class ProductServiceImpl implements ProductService {
     public PageableResponse<ProductDto> getAllOfCategory(String categoryId, Integer pageNumber, Integer pageSize, String sortBy, String direction) {
         log.info("Entering the Dao call for Get All Products With Category Id :{} ",categoryId);
         Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException(AppConstants.NOT_FOUND));
+
         Sort sort=(direction.equalsIgnoreCase("desc")) ? (Sort.by(sortBy).descending()) :(Sort.by(sortBy).ascending());
+
         PageRequest pages=PageRequest.of(pageNumber,pageSize,sort);
 
         Page<Product> product = this.productRepository.findByCategories(category, pages);

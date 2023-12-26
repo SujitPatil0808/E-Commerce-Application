@@ -22,4 +22,7 @@ public class AppConstants {
 
     public static final String ORDER_SORT_BY="orderStatus";
 
+    public static final String ACCESS_DENIED="Access Denied !!!";
+    public static final Long JWT_TOKEN_VALIDITY=5*60*60L;
+
 }
