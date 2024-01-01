@@ -1,5 +1,6 @@
 package com.bikkadit.electoronic.store.Controller;
 
+import com.bikkadit.electoronic.store.model.Role;
 import com.bikkadit.electoronic.store.model.User;
 import com.bikkadit.electoronic.store.payload.ApiResponse;
 import com.bikkadit.electoronic.store.payload.PageableResponse;
@@ -16,12 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
+import java.util.Set;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -47,9 +50,12 @@ public class UserControllerTest {
 
     UserDto userDto2;
 
+    Role role;
+
+    String jwtToken="Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJTdWppdFBhdGlsQEdtYWlsLmNvbSIsImV4cCI6MTcwMzg3MzAxOSwiaWF0IjoxNzAzODcxMjE5fQ.6he59a8PDaPdh5D_bjMdzM4nKF-DrseiX1IJTbeS0kVHW98rY2ZNX4Sn19VIaaIwxi6cadDpTwpdOreLCCPzTA";
     @BeforeEach
     public void init() {
-
+        role=Role.builder().roleId("Abc").roleName("NORMAL").build();
         user = User.builder()
                 .name("Sujit")
                 .email("SujitPatil3066@Gmail.com")
@@ -57,6 +63,7 @@ public class UserControllerTest {
                 .gender("Male")
                 .imageName("abc.png")
                 .password("Sujit#0808")
+                .roles(Set.of(role))
                 .build();
 
         userDto = UserDto.builder()
@@ -66,6 +73,7 @@ public class UserControllerTest {
                 .gender("Male")
                 .imageName("abc.png")
                 .password("Rushi#0808")
+
                 .build();
 
         userDto2 = UserDto.builder()
@@ -93,6 +101,7 @@ public class UserControllerTest {
 
         this.mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/users")
+                        .header(HttpHeaders.AUTHORIZATION,jwtToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(convertObjTojsonString(user))
                         .accept(MediaType.APPLICATION_JSON)
@@ -121,6 +130,7 @@ public class UserControllerTest {
         this.mockMvc
                 .perform(
                 MockMvcRequestBuilders.get("/api/users/")
+                        .header(HttpHeaders.AUTHORIZATION,jwtToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                 ).andDo(print()).andExpect(status().isOk());
@@ -138,6 +148,7 @@ public class UserControllerTest {
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/users/id/"+userId)
+                        .header(HttpHeaders.AUTHORIZATION,jwtToken)
         ).andDo(print()).andExpect(status().isOk());
 
 
@@ -153,6 +164,7 @@ public class UserControllerTest {
         Mockito.when(userServiceI.getUserByEmailId(email)).thenReturn(dto);
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/users/email/"+email)
+                        .header(HttpHeaders.AUTHORIZATION,jwtToken)
         ).andDo(print()).andExpect(status().isOk());
 
 
@@ -171,6 +183,7 @@ public class UserControllerTest {
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/users/email/"+email+"/pass/"+password)
+                        .header(HttpHeaders.AUTHORIZATION,jwtToken)
         ).andDo(print()).andExpect(status().isOk());
 
     }
@@ -184,6 +197,7 @@ public class UserControllerTest {
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/users/search/"+keyword)
+                        .header(HttpHeaders.AUTHORIZATION,jwtToken)
         ).andDo(print()).andExpect(status().isOk());
     }
 
@@ -198,6 +212,7 @@ public class UserControllerTest {
 
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/api/users/delete/"+userId)
+                        .header(HttpHeaders.AUTHORIZATION,jwtToken)
         ).andDo(print()).andExpect(status().isOk());
 
     }

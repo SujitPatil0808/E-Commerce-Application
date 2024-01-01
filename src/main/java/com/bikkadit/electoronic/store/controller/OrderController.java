@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,6 +46,8 @@ public class OrderController {
      * @return
      * @since 1.0v
      */
+
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/orderId/{orderId}")
     public ResponseEntity<ApiResponse> removeOrder(@PathVariable String orderId) {
         log.info("Enter the  request for Remove  Order With OrderId :{} ",orderId);

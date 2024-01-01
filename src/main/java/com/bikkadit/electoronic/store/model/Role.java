@@ -2,8 +2,9 @@ package com.bikkadit.electoronic.store.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -17,5 +18,8 @@ public class Role {
     private String roleId;
 
     private String roleName;
+
+
+
 
 }

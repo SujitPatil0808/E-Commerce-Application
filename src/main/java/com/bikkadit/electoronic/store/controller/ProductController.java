@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,6 +47,7 @@ public class ProductController {
      * @return ProductDto
      * @since 1.0v
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/")
     public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto productDto) {
         log.info("Enter the  request for Save the Product : {}",productDto);
@@ -76,6 +78,7 @@ public class ProductController {
      * @return
      * @since 1.0v
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{productId}")
     public ResponseEntity<ApiResponse> deleteById(@PathVariable String productId) {
         log.info("Enter the  request for Delete  the Product with Product Id : {}",productId);
@@ -94,6 +97,8 @@ public class ProductController {
      * @return
      * @since 1.0v
      */
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{productId}")
     public ResponseEntity<ProductDto> updateProduct(@Valid @PathVariable String productId, @RequestBody ProductDto dto) {
         log.info("Enter the  request for Update  the Product with Product Id : {}",productId);
@@ -208,6 +213,8 @@ public class ProductController {
      * @throws IOException
      * @since 1.0v
      */
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/image/{productId}")
     public ResponseEntity<ImageResponse> uploadImage(@RequestParam MultipartFile image,@PathVariable String productId) throws IOException {
         log.info("Enter the  request for Upload Image With ProductId :{} ",productId);
@@ -272,50 +279,6 @@ public class ProductController {
 
         return new ResponseEntity<>(allProducts,HttpStatus.OK);
      }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

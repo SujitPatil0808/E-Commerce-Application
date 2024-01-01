@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -40,6 +41,8 @@ public class CategotyControllerTest {
 
     Category category;
 
+    String jwtTokn="Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJTdWppdFBhdGlsQEdtYWlsLmNvbSIsImV4cCI6MTcwMzg3MzAxOSwiaWF0IjoxNzAzODcxMjE5fQ.6he59a8PDaPdh5D_bjMdzM4nKF-DrseiX1IJTbeS0kVHW98rY2ZNX4Sn19VIaaIwxi6cadDpTwpdOreLCCPzTA";
+
     @BeforeEach
     public void init(){
         category=Category.builder()
@@ -62,6 +65,7 @@ public class CategotyControllerTest {
 
         this.mockMvc.perform(
                         MockMvcRequestBuilders.post("/api/category/")
+                                .header(HttpHeaders.AUTHORIZATION,jwtTokn)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(convertObjectToJsonString(category))
                                 .accept(MediaType.APPLICATION_JSON)
@@ -78,6 +82,7 @@ public class CategotyControllerTest {
         Mockito.when(this.categoryServiceI.updateCategory(Mockito.any(),Mockito.anyString())).thenReturn(dto);
         this.mockMvc.perform(
                         MockMvcRequestBuilders.put("/api/category/"+categoryId)
+                                .header(HttpHeaders.AUTHORIZATION,jwtTokn)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(convertObjectToJsonString(category))
                                 .accept(MediaType.APPLICATION_JSON))
@@ -92,6 +97,7 @@ public class CategotyControllerTest {
         Mockito.when(this.categoryServiceI.getSingleCategory(Mockito.any())).thenReturn(dto);
         this.mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/category/categoryId/"+categoryId)
+                        .header(HttpHeaders.AUTHORIZATION,jwtTokn)
                         .contentType(convertObjectToJsonString(category))
                         .accept(MediaType.APPLICATION_JSON)
         ).andDo(print()).andExpect(status().isOk());
@@ -115,6 +121,7 @@ public class CategotyControllerTest {
         Mockito.when(this.categoryServiceI.getAllCategory(Mockito.anyInt(),Mockito.anyInt(),Mockito.anyString(),Mockito.anyString())).thenReturn(pageResponse);
         this.mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/category/")
+                        .header(HttpHeaders.AUTHORIZATION,jwtTokn)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         ).andDo(print()).andExpect(status().isOk());
@@ -131,6 +138,7 @@ public class CategotyControllerTest {
 
         this.mockMvc.perform(
                 MockMvcRequestBuilders.delete("/api/category/delete/"+categoryId)
+                        .header(HttpHeaders.AUTHORIZATION,jwtTokn)
         ).andDo(print()).andExpect(status().isOk());
 
     }

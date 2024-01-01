@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,6 +42,7 @@ public class CategoryController {
      * @return CategoryDto
      * @since 1.0v
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/")
     public ResponseEntity<CategoryDto> saveCategory( @Valid @RequestBody CategoryDto categoryDto){
         log.info("Enter the  request for Save the Category : {}",categoryDto);
@@ -115,6 +117,8 @@ public class CategoryController {
      * @return CategoryDto
      * @since 1.0v
      */
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{categoryId}")
     public ResponseEntity<CategoryDto> updateCategory(@Valid @RequestBody CategoryDto dto,@PathVariable String categoryId){
         log.info("Enter the  request for Update  the Category With Category Id  :{}",categoryId);
@@ -132,6 +136,7 @@ public class CategoryController {
      * @throws IOException
      * @since 1.0v
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/image/{catId}")
     public ResponseEntity<ImageResponse> uploadImage(@RequestParam MultipartFile image, @PathVariable    String catId) throws IOException {
         log.info("Enter the request for Upload Image with categoryId : {}",catId);

@@ -5,6 +5,7 @@ import com.bikkadit.electoronic.store.payload.PageableResponse;
 import com.bikkadit.electoronic.store.payload.UserDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserServiceI {
 
@@ -23,5 +24,7 @@ public interface UserServiceI {
              List<UserDto> searchUser(String keyword);
 
              UserDto getUserByEmailAndPassword(String email, String password);
+
+             Optional<User> findUserByEmailOptional(String email);
 
 }

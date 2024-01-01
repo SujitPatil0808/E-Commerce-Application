@@ -10,6 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
@@ -24,6 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     @Autowired
@@ -55,6 +57,16 @@ public class SecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
+
+    private final String [] public_Urls={
+
+            "/swagger-ui/**",
+            "/webjars/**",
+            "/swagger-resources/**",
+            "/v3/api-docs",
+            "/v2/api-docs"
+     };
+
     // This Security For Jwt Authentication Configuration
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -65,7 +77,10 @@ public class SecurityConfig {
                 .cors()
                 .disable()
                 .authorizeRequests().antMatchers("/api/auth/login").permitAll()
-                        .antMatchers(HttpMethod.POST, "/api/users/").permitAll()
+                        .antMatchers(HttpMethod.POST, "/api/users").permitAll()
+                        .antMatchers(public_Urls).permitAll()
+                        .antMatchers("/api/auth/google").permitAll()
+                        .antMatchers(HttpMethod.DELETE,"/api/users/delete/**").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()

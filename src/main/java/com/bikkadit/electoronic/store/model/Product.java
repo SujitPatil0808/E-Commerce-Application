@@ -43,7 +43,7 @@ public class Product {
     @Column(name = "product_image")
     private String image;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Category categories;
 
 
